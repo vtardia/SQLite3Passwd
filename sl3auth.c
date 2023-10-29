@@ -14,17 +14,17 @@ char *SHA512Crypt(const void *data, size_t size);
 /// Initialises a newly created database
 static bool db_init(sqlite3 *db) {
   char sql[1024] = {};
-  strcat(sql, "drop table if exists users;\n");  
-  strcat(sql, "create table users (\n");  
-  strcat(sql, "  id integer not null primary key autoincrement,\n");  
-  strcat(sql, "  username varchar(50) not null check(length(username) <= 50),\n");  
-  strcat(sql, "  password varchar(128) not null check(length(password) <= 128),\n");  
-  strcat(sql, "  created_at datetime not null default CURRENT_TIMESTAMP,\n");  
-  strcat(sql, "  updated_at datetime not null default CURRENT_TIMESTAMP\n");  
-  strcat(sql, ");\n");  
-  strcat(sql, "create unique index user_username on users (username);\n");  
-  strcat(sql, "create index user_created_at on users (created_at);\n");  
-  strcat(sql, "create index user_updated_at on users (updated_at);\n");  
+  strcat(sql, "drop table if exists users;\n");
+  strcat(sql, "create table users (\n");
+  strcat(sql, "  id integer not null primary key autoincrement,\n");
+  strcat(sql, "  username varchar(50) not null check(length(username) <= 50),\n");
+  strcat(sql, "  password varchar(128) not null check(length(password) <= 128),\n");
+  strcat(sql, "  created_at datetime not null default CURRENT_TIMESTAMP,\n");
+  strcat(sql, "  updated_at datetime not null default CURRENT_TIMESTAMP\n");
+  strcat(sql, ");\n");
+  strcat(sql, "create unique index user_username on users (username);\n");
+  strcat(sql, "create index user_created_at on users (created_at);\n");
+  strcat(sql, "create index user_updated_at on users (updated_at);\n");
 
   char *zErrMsg = NULL;
   int rc = sqlite3_exec(db, sql, NULL, NULL, &zErrMsg);
@@ -70,7 +70,7 @@ fail:
 char *SL3Auth_getPassword(const char *prompt) {
   char *pass = getpass(prompt != NULL ? prompt : "Enter password: ");
   char *password = strdup(pass);
-  memset(pass, 0, _PASSWORD_LEN);
+  memset(pass, 0, strlen(pass));
   return password;
 }
 
