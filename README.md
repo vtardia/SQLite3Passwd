@@ -19,7 +19,7 @@ The static library will be installed into `$PREFIX/lib/libsl3auth.a`, the header
 
 When compiling your own programs, use the `-I $PREFIX/include` and `-L $PREFIX/lib` GCC compiler options and `-lsl3auth` options within your `Makefile`s or directly into the command line.
 
-SQLite3Passwd also requires the OpenSSL and SQLite3 packages to linked at compile time.
+SQLite3Passwd also requires the OpenSSL 3 and SQLite3 packages to be linked at compile time.
 
 ## Usage
 
@@ -69,6 +69,12 @@ fail:
   return EXIT_FAILURE;
 }
 ```
+
+### Username validation
+
+The `sl3passwd` utility validates the username length and requires that it starts with a letter and does not contain spaces.
+
+The `sl3auth` library only validates the username length through SQLite, so in your programs you are responsible for further validation.
 
 ## License
 
