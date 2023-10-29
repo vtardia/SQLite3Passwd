@@ -19,6 +19,8 @@ else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		OSFLAG += -D LINUX -D _GNU_SOURCE
+		CFLAGS += -I /usr/local/ssl/include/
+		LDLIBS += -L /usr/local/ssl/lib64/
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		OSFLAG += -D MACOS
@@ -46,7 +48,7 @@ obj/sl3passwd.o: sl3passwd.c
 	$(CC) $(CFLAGS) -c -o $@ $(OSFLAG) $<
 
 # Install/uninstall targets
-install: libsl3auth
+install: libsl3auth sl3passwd
 	$(eval INSTALL_BIN_DIR = $(PREFIX)/bin)
 	$(eval INSTALL_LIB_DIR = $(PREFIX)/lib)
 	$(eval INSTALL_INC_DIR = $(PREFIX)/include)
