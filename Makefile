@@ -19,8 +19,6 @@ else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		OSFLAG += -D LINUX -D _GNU_SOURCE
-		CFLAGS += -I /usr/local/ssl/include/
-		LDLIBS += -L /usr/local/ssl/lib64/
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		OSFLAG += -D MACOS
