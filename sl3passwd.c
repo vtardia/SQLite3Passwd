@@ -179,6 +179,7 @@ int main(int argc, char const *argv[]) {
         free(password);
         goto fail;
       }
+      free(password);
     }
   } else if (StringEquals(operation, OP_VERIFY)) {
     CheckUsername();
@@ -186,8 +187,10 @@ int main(int argc, char const *argv[]) {
     char *password = SL3Auth_getPassword("Enter password: ");
     if (!SL3Auth_verifyUser(argv[3], password, db)) {
       fprintf(stderr, "Invalid username or password\n");
+      free(password);
       goto fail;
     }
+    free(password);
     printf("OK\n");
   } else if (StringEquals(operation, OP_DELETE)) {
     CheckUsername();
@@ -195,7 +198,7 @@ int main(int argc, char const *argv[]) {
   } else {
     goto failWithUsage;
   }
-  
+
   // Cleanup
   sqlite3_close(db);
   return EXIT_SUCCESS;

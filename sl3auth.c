@@ -70,7 +70,7 @@ fail:
 char *SL3Auth_getPassword(const char *prompt) {
   char *pass = getpass(prompt != NULL ? prompt : "Enter password: ");
   char *password = strdup(pass);
-  memset(pass, 0, strlen(pass));
+  free(pass);
   return password;
 }
 
@@ -252,12 +252,10 @@ bool SL3Auth_verifyUser(const char *username, const char *password, sqlite3 *db)
   }
 
   // Compare the two hashes
-  if (strcmp(storedPassword, hash) == 0) {
-    free(storedPassword);
-    return true;
-  }
+  bool success = (strcmp(storedPassword, hash) == 0);
+  free(hash);
   free(storedPassword);
-  return false;
+  return success;
 
 fail:
   sqlite3_finalize(stmt);
